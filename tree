@@ -1,0 +1,25 @@
+#!/usr/bin/ruby -w
+def tree(path="./", pre=nil)
+  unless pre
+    puts path
+	pre = "   "
+  end
+  dir = Dir::entries path
+  dir.delete_if {|d| d == "." or d == ".."}
+  dir.each do |d|
+    last = d == dir.last
+	  if FileTest::directory? path_d = File.join(path, d)
+	    puts pre+"+--"+d
+	    tree path_d, pre+(last ? "   " : "|   ")
+	  else
+	    puts pre+(last ? "`" : "|")+"--"+d
+	  end
+  end
+end
+
+if ARGV[0] == nil
+  path = "."
+else
+  path = ARGV[0]
+end
+tree(path)
